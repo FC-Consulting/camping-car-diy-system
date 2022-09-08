@@ -16,18 +16,51 @@ Un example est fournis dans le dossier `templates`.
 
 ### Arborescence
 
-- languages
-    - en
-    - fr
-- ccds-config
+- ccds
+    - lang
+        - en
+        - fr
+    - config
 
-Le fichier de configuration doit être nommé : `ccds-config` (Exemple dans les templates)
+Le fichier de configuration doit être nommé : `config` (Exemple dans les templates)
 
-Il doit être enregistré sur une carte micro SD, à la racine.
+Il doit être enregistré sur une carte micro SD, dans un dossier `ccds`.
 
 Cette carte sera ensuite inséré dans le lecteur de carte micro SD du système, avant sa mise en route, afin de configurer celui-ci.
 
-Pour reconfigurer le système, veillez le mettre hors tension avant de manipuler la carte SD.
+Pour reconfigurer le système, veillez à mettre hors tension le système avant de manipuler la carte SD.
+
+### Liste des paramètres
+
+__Language__
+
+*Valeurs*
+
+    - en
+    - fr
+
+*Defaut*
+
+    - en
+
+*Exemple*
+
+    language=fr
+
+__Pourcentage des progress bar__
+
+*Valeurs*
+
+    - true
+    - false
+
+*Defaut*
+
+    - true
+
+*Exemple*
+
+    showPercentage=true
 
 ## Liste du matériel à prévoir
 

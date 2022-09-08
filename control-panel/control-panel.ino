@@ -4,29 +4,30 @@
 
 #define SERIAL_SPEED 115200
 
-#define LCD_NB_ROWS 2
-#define LCD_NB_COLUMNS 16
-#define LCD_CONTRAST_PIN 6
+#define SD_CARD_SELECT 10
 
 #define WATER_CLEAN_PIN 9
 #define WATER_GRAY_PIN 10
 
-#include "LiquidCrystal.h"
-
+#include "Screen.h"
+#include "Sd.h"
 #include "Config.h"
+#include "Translation.h"
 #include "Control.h"
 #include "Electricity.h"
 #include "Gas.h"
 #include "Water.h"
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-
-Config config;
+Screen screen;
+Sd sd(screen);
+Config config(sd);
+Translation translation(sd);
 Control control;
 Electricity electricity;
 Gas gas(WATER_CLEAN_PIN);
 Water water(WATER_CLEAN_PIN);
+
+boolean showPercentage = true;
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
@@ -34,11 +35,21 @@ void setup() {
     ;
   }
 
-  config.begin(4);
-  Serial.println(config.getString(F("Hello")));
+  screen.init();
+  sd.begin(SD_CARD_SELECT);
+  translation.setLanguage(config.getString(F("language")));
   
-  analogWrite(LCD_CONTRAST_PIN, 50);
-  lcd.begin(LCD_NB_COLUMNS, LCD_NB_ROWS);
+  showPercentage = config.getBoolean(F("showPercentage"));
+
+  /* Welcome */
+  screen.printCenter(translation.getLabel(F("welcome")));
+  screen.wait(5000, 3, false);
+
+/*
+  Serial.println(config.getString(F("test")));
+  Serial.println(translation.getLabel(F("welcome")));
+  Serial.println(translation.getLabel(F("error_sd_load")));
+*/
 }
 
 int cpt = 0;
@@ -48,28 +59,24 @@ void loop() {
 
   switch (cpt) {
     case 1:
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print(water.cleanTitle());
-      draw_progressbar(water.cleanLevel(), 1);
+      screen.clear();
+      screen.printTitle(water.cleanTitle(), 0, 0);
+      screen.printProgressBar(water.cleanLevel(), 1, showPercentage);
       break;
     case 2:
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print(water.grayTitle());
-      draw_progressbar(water.grayLevel(), 1);
+      screen.clear();
+      screen.printTitle(water.grayTitle(), 0, 0);
+      screen.printProgressBar(water.grayLevel(), 1, showPercentage);
       break;
     case 3:
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print(gas.title());
-      draw_progressbar(gas.value(), 1);
+      screen.clear();
+      screen.printTitle(gas.title(), 0, 0);
+      screen.printProgressBar(gas.value(), 1, showPercentage);
       break;
     case 4:
-      lcd.clear();
-      lcd.setCursor(0, 0);
-      lcd.print(electricity.title());
-      draw_progressbar(electricity.value(), 1);
+      screen.clear();
+      screen.printTitle(electricity.title(), 0, 0);
+      screen.printProgressBar(electricity.value(), 1, showPercentage);
       break;
     default:
       cpt = 0;
@@ -77,20 +84,4 @@ void loop() {
   }
 
   delay(5000);
-}
-
-void draw_progressbar(byte percent, int line) {
-  lcd.setCursor(0, line);
-  byte nb_columns = map(percent, 0, 100, 0, LCD_NB_COLUMNS * 5);
-  for (byte i = 0; i < LCD_NB_COLUMNS; ++i) {
-    if (nb_columns == 0) {
-      lcd.write((byte) 0);
-    } else if (nb_columns >= 5) {
-      lcd.write(5);
-      nb_columns -= 5;
-    } else {
-      lcd.write(nb_columns);
-      nb_columns = 0;
-    }
-  }
 }
