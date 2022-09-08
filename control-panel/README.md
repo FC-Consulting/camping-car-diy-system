@@ -62,6 +62,20 @@ __Pourcentage des progress bar__
 
     showPercentage=true
 
+__Temporisation__
+
+*Valeurs*
+
+    - entier en milliseconde
+
+*Defaut*
+
+    - 5000
+
+*Exemple*
+
+    tempo=5000
+
 ## Liste du matériel à prévoir
 
 - 1 x [Arduino Mega 2560 Rev3](https://www.amazon.fr/dp/B0046AMGW0)

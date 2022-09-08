@@ -4,11 +4,8 @@
 
 class Gas {
   public:
-    Gas(int pin);
-    String title();
+    Gas();
     int value();
-  private:
-    int _pin;
 };
 
 #endif

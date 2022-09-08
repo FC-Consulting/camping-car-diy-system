@@ -51,7 +51,6 @@ void Screen::printProgressBar(byte value, int line, boolean withValue) {
 }
 
 void Screen::printCenter(String value) {
-  Serial.println(value);
   int cursorOffset = 0;
 
   int LineCount = 0;
@@ -66,7 +65,6 @@ void Screen::printCenter(String value) {
       lines[LineCount++] = value.substring(0, index);
       value = value.substring(index+1);
     }
-    Serial.println(lines[LineCount]);
   }
 
   for (int i = 0; i < LineCount; i++) {

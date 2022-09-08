@@ -1,13 +1,15 @@
 #include "Arduino.h"
 #include "Electricity.h"
 
+/* Constructor */
+
 Electricity::Electricity() {
 }
 
-String Electricity::title() {
-  return String("Battery");
-}
+/* Publics */
 
 int Electricity::value() {
   return random(0, 100);
 }
+
+/* Privates */

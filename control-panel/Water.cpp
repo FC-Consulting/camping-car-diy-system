@@ -1,22 +1,20 @@
 #include "Arduino.h"
 #include "Water.h"
+#include "Screen.h"
 
-Water::Water(int pin) {
-  _pin = pin;
+/* Constructor */
+
+Water::Water() {
 }
 
-String Water::cleanTitle() {
-  return String("Clean water");
-}
+/* Publics */
 
-String Water::grayTitle() {
-  return String("Gray water");
-}
-
-int Water::cleanLevel() {
+int Water::getClean() {
   return random(0, 100);
 }
 
-int Water::grayLevel() {
+int Water::getGray() {
   return random(0, 100);
 }
+
+/* Privates */

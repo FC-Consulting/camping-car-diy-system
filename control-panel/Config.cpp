@@ -4,14 +4,30 @@
 
 #define FILENAME "ccds/config"
 
+/* Constructor */
+
 Config::Config(Sd sd) {
   _sd = &sd;
 }
 
-String Config::getString(const __FlashStringHelper * key) {
-  return _sd->getString(FILENAME, key);
+/* Publics */
+
+void Config::read() {
+  _language = _sd->getString(FILENAME, F("language"));
+  _showPercentage= _sd->getString(FILENAME, F("showPercentage"));
+  _tempo = _sd->getInt(FILENAME, F("tempo"));
 }
 
-boolean Config::getBoolean(const __FlashStringHelper * key) {
-  return _sd->getBoolean(FILENAME, key);
+String Config::language() {
+  return _language;
 }
+
+boolean Config::showPercentage() {
+  return _showPercentage;
+}
+
+int Config::tempo() {
+  return _tempo;
+}
+
+/* Privates */

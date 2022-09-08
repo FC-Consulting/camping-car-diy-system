@@ -1,14 +1,15 @@
 #include "Arduino.h"
 #include "Gas.h"
 
-Gas::Gas(int pin) {
-  _pin = pin;
+/* Constructor */
+
+Gas::Gas() {
 }
 
-String Gas::title() {
-  return String("Gas");
-}
+/* Publics */
 
 int Gas::value() {
   return random(0, 13) * 100 / 24;
 }
+
+/* Privates */

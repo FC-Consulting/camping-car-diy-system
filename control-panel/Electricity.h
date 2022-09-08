@@ -5,7 +5,6 @@
 class Electricity {
   public:
     Electricity();
-    String title();
     int value();
 };
 

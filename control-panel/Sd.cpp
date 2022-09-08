@@ -4,6 +4,8 @@
 #include "SPI.h"
 #include "SD.h"
 
+#define SD_CARD_SELECT 10
+
 #define KEY_MAX_LENGTH    30 // change it if key is longer
 #define VALUE_MAX_LENGTH  30 // change it if value is longer
 
@@ -13,12 +15,12 @@ Sd::Sd(Screen screen) {
   _screen = &screen;
 }
 
-void Sd::begin(int spi_pin) {
-  if (!SD.begin(spi_pin)) {
+void Sd::begin() {
+  if (!SD.begin(SD_CARD_SELECT)) {
     _screen->clear();
-    _screen->printTitle(F("Erreur lecteur SD"), 0, 0);
-    _screen->printTitle(F("ou"), 1, 0);
-    _screen->printTitle(F("Carte SD non present"), 2, 0);
+    _screen->printTitle(F("SD card failed,"), 0, 0);
+    _screen->printTitle(F("or"), 1, 0);
+    _screen->printTitle(F("not present"), 2, 0);
     while (1); // don't do anything more:
   }
 }

@@ -7,7 +7,7 @@
 class Sd {
   public:
     Sd(Screen);
-    void begin(int spi_pin);
+    void begin();
     String getString(String, const __FlashStringHelper * key);
     bool getBoolean(String, const __FlashStringHelper * key);
     int getInt(String, const __FlashStringHelper * key);

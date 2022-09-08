@@ -4,8 +4,6 @@
 
 #define SERIAL_SPEED 115200
 
-#define SD_CARD_SELECT 10
-
 #define WATER_CLEAN_PIN 9
 #define WATER_GRAY_PIN 10
 
@@ -24,10 +22,8 @@ Config config(sd);
 Translation translation(sd);
 Control control;
 Electricity electricity;
-Gas gas(WATER_CLEAN_PIN);
-Water water(WATER_CLEAN_PIN);
-
-boolean showPercentage = true;
+Gas gas;
+Water water;
 
 void setup() {
   Serial.begin(SERIAL_SPEED);
@@ -36,10 +32,9 @@ void setup() {
   }
 
   screen.init();
-  sd.begin(SD_CARD_SELECT);
-  translation.setLanguage(config.getString(F("language")));
-  
-  showPercentage = config.getBoolean(F("showPercentage"));
+  sd.begin();
+  config.read();
+  translation.setLanguage(config.language());
 
   /* Welcome */
   screen.printCenter(translation.getLabel(F("welcome")));
@@ -60,28 +55,22 @@ void loop() {
   switch (cpt) {
     case 1:
       screen.clear();
-      screen.printTitle(water.cleanTitle(), 0, 0);
-      screen.printProgressBar(water.cleanLevel(), 1, showPercentage);
+      screen.printTitle(translation.getLabel(F("clean_water")), 0, 0);
+      screen.printProgressBar(random(0, 100), 1, config.showPercentage());
+      screen.printTitle(translation.getLabel(F("gray_water")), 2, 0);
+      screen.printProgressBar(random(0, 100), 3, config.showPercentage());
       break;
     case 2:
       screen.clear();
-      screen.printTitle(water.grayTitle(), 0, 0);
-      screen.printProgressBar(water.grayLevel(), 1, showPercentage);
-      break;
-    case 3:
-      screen.clear();
-      screen.printTitle(gas.title(), 0, 0);
-      screen.printProgressBar(gas.value(), 1, showPercentage);
-      break;
-    case 4:
-      screen.clear();
-      screen.printTitle(electricity.title(), 0, 0);
-      screen.printProgressBar(electricity.value(), 1, showPercentage);
+      screen.printTitle(translation.getLabel(F("gas_cylender")), 0, 0);
+      screen.printProgressBar(gas.value(), 1, config.showPercentage());
+      screen.printTitle(translation.getLabel(F("battery")), 2, 0);
+      screen.printProgressBar(electricity.value(), 3, config.showPercentage());
       break;
     default:
       cpt = 0;
       break;
   }
 
-  delay(5000);
+  delay(config.tempo());
 }

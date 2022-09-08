@@ -11,7 +11,6 @@ Translation::Translation(Sd sd) {
 
 void Translation::setLanguage(String language) {
   _language = language;
-  Serial.println(String("Lang: ") + String(_language));
 }
 
 String Translation::getLabel(const __FlashStringHelper * key) {

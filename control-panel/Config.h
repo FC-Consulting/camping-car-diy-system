@@ -6,10 +6,15 @@
 class Config {
   public:
     Config(Sd);
-    String getString(const __FlashStringHelper * key);
-    boolean getBoolean(const __FlashStringHelper * key);
+    void read();
+    String language();
+    boolean showPercentage();
+    int tempo();
   private:
     Sd* _sd;
+    String _language;
+    boolean _showPercentage;
+    int _tempo;
 };
 
 #endif
