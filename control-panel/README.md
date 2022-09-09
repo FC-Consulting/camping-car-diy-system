@@ -83,3 +83,4 @@ __Temporisation__
 - 1 x [Module lecteur de carte micro SD](https://www.amazon.fr/dp/B06X1DX5WS)
 - 1 x [Carte micro SD](https://www.amazon.fr/dp/B008RDCC26)
 - 1 x [Module Ecran LCD2004 I2C](https://www.amazon.fr/dp/B07QNKCLJM)
+- 1 x [Capteur de Pression](https://www.amazon.fr/dp/B096WB8792)
