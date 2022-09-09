@@ -6,7 +6,7 @@
 
 ## Prérequis
 
-Ce système de gestion de camping-car nécessite un `Arduino Mega`.
+Ce système de gestion de camping-car nécessite un `Arduino Mega 2560`.
 
 ## Configuration : Contenu de la carte micro SD
 
