@@ -7,61 +7,27 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-<<<<<<< HEAD
     container: shaguarger/platformio
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Run
       run: |
         cd control-panel
         platformio run --verbose --environment megaatmega2560
 
       # platformio test --verbose --environment megaatmega2560 
-=======
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Cache pip
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Cache PlatformIO
-      uses: actions/cache@v2
-      with:
-        path: ~/.platformio
-        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-    - name: Set up Python
-      uses: actions/setup-python@v2
-    - name: Install PlatformIO
-      run: |
-        python -m pip install --upgrade pip
-        pip install --upgrade platformio
-    - name: Go to the project
-      run: cd control-panel
-    - name: Run test
-      run: pio test
-    - name: Run check
-      run: pio check
->>>>>>> ci
 
   build:
 
     runs-on: ubuntu-latest
-<<<<<<< HEAD
     container: shaguarger/platformio
 
-=======
->>>>>>> ci
     needs: [test]
     if: contains('refs/heads/main', github.ref)
 
     steps:
-    - uses: actions/checkout@v2
-<<<<<<< HEAD
+    - uses: actions/checkout@v3
     - name: Run
       run: |
         cd control-panel
@@ -69,30 +35,8 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: firmware.elf
-        path: .pio/build/megaatmega2560/firmware.elf
+        path: control-panel/.pio/build/megaatmega2560/firmware.elf
     - uses: actions/upload-artifact@v3
       with:
         name: firmware.hex
-        path: .pio/build/megaatmega2560/firmware.hex
-=======
-    - name: Cache pip
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Cache PlatformIO
-      uses: actions/cache@v2
-      with:
-        path: ~/.platformio
-        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-    - name: Set up Python
-      uses: actions/setup-python@v2
-    - name: Install PlatformIO
-      run: |
-        python -m pip install --upgrade pip
-        pip install --upgrade platformio
-    - name: Run PlatformIO
-      run: pio build
->>>>>>> ci
+        path: control-panel/.pio/build/megaatmega2560/firmware.hex
