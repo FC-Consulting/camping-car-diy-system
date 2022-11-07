@@ -1,0 +1,42 @@
+---
+name: Arduino
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    container: shaguarger/platformio
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run
+      run: |
+        cd control-panel
+        platformio run --verbose --environment megaatmega2560
+
+      # platformio test --verbose --environment megaatmega2560 
+
+  build:
+
+    runs-on: ubuntu-latest
+    container: shaguarger/platformio
+
+    needs: [test]
+    if: contains('refs/heads/main', github.ref)
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run
+      run: |
+        cd control-panel
+        platformio run --environment megaatmega2560
+    - uses: actions/upload-artifact@v3
+      with:
+        name: firmware.elf
+        path: .pio/build/megaatmega2560/firmware.elf
+    - uses: actions/upload-artifact@v3
+      with:
+        name: firmware.hex
+        path: .pio/build/megaatmega2560/firmware.hex
