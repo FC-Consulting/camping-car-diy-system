@@ -6,16 +6,16 @@ on: [push]
 jobs:
   test:
 
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'
+    runs-on: ubuntu-latest
+
+    container:
+      build: ./Dockerfile
+      volumes:
+        - control-panel:/control-panel
+      workdir: control-panel
 
     steps:
     - uses: actions/checkout@v2
-    - name: list
-      run: ls -als
-    - name: Go to the project
-      run: cd control-panel
     - name: list
       run: ls -als
     - name: Run build
