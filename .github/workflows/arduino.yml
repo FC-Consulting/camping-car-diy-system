@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      build: .
+      image: shaguarger/platformio
       volumes:
         - control-panel:/control-panel
-      workdir: control-panel
+      # options: --user cicd -e "HOME=/home/control-panel"
 
     steps:
     - uses: actions/checkout@v2
