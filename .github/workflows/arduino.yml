@@ -7,15 +7,14 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-
-    container:
-      image: shaguarger/platformio
-      volumes:
-        - control-panel:/control-panel
-      # options: --user cicd -e "HOME=/home/control-panel"
+    container: shaguarger/platformio
 
     steps:
     - uses: actions/checkout@v2
+    - name: list
+      run: ls -als
+    - name: Go to Control Panel
+      run: cd control-panel
     - name: list
       run: ls -als
     - name: Run build
