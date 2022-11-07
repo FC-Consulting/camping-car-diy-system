@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      build: ./Dockerfile
+      build: .
       volumes:
         - control-panel:/control-panel
       workdir: control-panel
@@ -23,9 +23,7 @@ jobs:
 
   build:
 
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'
+    runs-on: ubuntu-latest
     needs: [test]
     if: contains('refs/heads/main', github.ref)
 
