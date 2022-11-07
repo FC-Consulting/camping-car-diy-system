@@ -10,6 +10,7 @@ jobs:
     container: shaguarger/platformio
 
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v3
     - name: Run
       run: |
@@ -17,6 +18,17 @@ jobs:
         platformio run --verbose --environment megaatmega2560
 
       # platformio test --verbose --environment megaatmega2560 
+=======
+    - uses: actions/checkout@v2
+    - name: list
+      run: ls -als
+    - name: Go to Control Panel
+      run: cd control-panel
+    - name: list
+      run: ls -als
+    - name: Run build
+      run: pio build
+>>>>>>> cd
 
   build:
 
