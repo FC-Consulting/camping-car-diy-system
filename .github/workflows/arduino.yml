@@ -11,14 +11,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: list
-      run: ls -als
     - name: Go to Control Panel
-      run: cd control-panel
-    - name: list
-      run: ls -als
+      run: |
+        cd control-panel
+        ls -als
     - name: Run build
-      run: pio build
+      run: |
+        cd control-panel
+        pio build
 
   build:
 
