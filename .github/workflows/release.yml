@@ -1,5 +1,5 @@
 ---
-name: Arduino
+name: Release
 
 on:
   push:
