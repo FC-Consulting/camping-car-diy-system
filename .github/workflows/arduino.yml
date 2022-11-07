@@ -44,28 +44,3 @@ jobs:
       with:
         name: firmware.hex
         path: control-panel/.pio/build/megaatmega2560/firmware.hex
-
-  release:
-
-    runs-on: ubuntu-latest
-    container: shaguarger/platformio
-
-    needs: [build]
-    if: contains('refs/tags/v*', github.ref)
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Run
-      run: |
-        cd control-panel
-        platformio run --environment megaatmega2560
-
-    - uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
