@@ -1,6 +1,4 @@
-/*
- * Gestion d'un camping car
- */
+#include <Arduino.h>
 
 #define SERIAL_SPEED 115200
 
