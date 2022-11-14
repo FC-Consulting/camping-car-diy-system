@@ -33,12 +33,12 @@ workflows:
             branches:
               only:
                 - main
-      - release:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^\d+.\d+.\d+$/
-            branches:
-              only:
-                - main
+#      - release:
+#          requires:
+#            - build
+#          filters:
+#            tags:
+#              only: /^\d+.\d+.\d+$/
+#            branches:
+#              only:
+#                - main
