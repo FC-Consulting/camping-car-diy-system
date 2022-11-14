@@ -17,12 +17,13 @@ jobs:
           command: "cd control-panel && platformio run --verbose --environment megaatmega2560"
 
 workflows:
-  test-workflow:
-    jobs:
-      - test
   build-workflow:
     jobs:
       - test
       - build:
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - main
