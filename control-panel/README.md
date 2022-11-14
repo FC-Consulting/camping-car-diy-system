@@ -1,5 +1,7 @@
 # Control Panel
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/FC-Consulting/camping-car-diy-system/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/FC-Consulting/camping-car-diy-system/tree/main)
+
 ## Schéma
 
 ![Control Panel Schema](schema/schema_bb.png)
