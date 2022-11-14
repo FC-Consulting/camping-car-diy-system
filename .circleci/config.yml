@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: shaguarger/platformio
+    steps:
+      - checkout
+      - run:
+          command: "cd control-panel && platformio run --verbose --environment megaatmega2560"
+  build:
+    docker:
+      - image: shaguarger/platformio
+    steps:
+      - checkout
+      - run:
+          command: "cd control-panel && platformio run --verbose --environment megaatmega2560"
+
+workflows:
+  test-workflow:
+    jobs:
+      - test
+  build-workflow:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
