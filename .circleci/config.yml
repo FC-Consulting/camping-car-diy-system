@@ -7,20 +7,40 @@ jobs:
     steps:
       - checkout
       - run:
-          command: "cd control-panel && platformio check --skip-packages --environment megaatmega2560"
+          command: |
+            cd control-panel
+            platformio check --skip-packages --environment megaatmega2560
   build:
     docker:
       - image: shaguarger/platformio
     steps:
       - checkout
       - run:
-          command: "cd control-panel && platformio run --environment megaatmega2560"
+          command: |
+            cd control-panel
+            platformio run --environment megaatmega2560
       - store_artifacts:
           path: control-panel/.pio/build/megaatmega2560/firmware.elf
-          destination: firmware.elf
+          destination: ./artifacts/firmware.elf
       - store_artifacts:
           path: control-panel/.pio/build/megaatmega2560/firmware.hex
-          destination: firmware.hex
+          destination: ./artifacts/firmware.hex
+  release:
+    docker:
+      - image: cimg/base:2022.06
+    parameters:
+      version_tag:
+        type: string
+        description: Version tag of this release.
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create ${version_tag} ./artifacts/ -t ${CIRCLE_PROJECT_REPONAME}"
 
 workflows:
   platformio:
@@ -33,12 +53,12 @@ workflows:
             branches:
               only:
                 - main
-#      - release:
-#          requires:
-#            - build
-#          filters:
-#            tags:
-#              only: /^\d+.\d+.\d+$/
-#            branches:
-#              only:
-#                - main
+      - release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^\d+.\d+.\d+$/
+            branches:
+              ignore: /.*/
+          version_tag: << pipeline.git.tag >>
