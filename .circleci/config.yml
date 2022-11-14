@@ -1,0 +1,44 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: shaguarger/platformio
+    steps:
+      - checkout
+      - run:
+          command: "cd control-panel && platformio check --skip-packages --environment megaatmega2560"
+  build:
+    docker:
+      - image: shaguarger/platformio
+    steps:
+      - checkout
+      - run:
+          command: "cd control-panel && platformio run --environment megaatmega2560"
+      - store_artifacts:
+          path: control-panel/.pio/build/megaatmega2560/firmware.elf
+          destination: firmware.elf
+      - store_artifacts:
+          path: control-panel/.pio/build/megaatmega2560/firmware.hex
+          destination: firmware.hex
+
+workflows:
+  platformio:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+#      - release:
+#          requires:
+#            - build
+#          filters:
+#            tags:
+#              only: /^\d+.\d+.\d+$/
+#            branches:
+#              only:
+#                - main
