@@ -15,6 +15,12 @@ jobs:
       - checkout
       - run:
           command: "cd control-panel && platformio run --environment megaatmega2560"
+      - store_artifacts:
+          path: control-panel/.pio/build/megaatmega2560/firmware.elf
+          destination: firmware.elf
+      - store_artifacts:
+          path: control-panel/.pio/build/megaatmega2560/firmware.hex
+          destination: firmware.hex
 
 workflows:
   platformio:
@@ -24,6 +30,15 @@ workflows:
           requires:
             - test
           filters:
+            branches:
+              only:
+                - main
+      - release:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^\d+.\d+.\d+$/
             branches:
               only:
                 - main
