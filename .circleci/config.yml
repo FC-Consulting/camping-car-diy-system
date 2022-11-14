@@ -6,10 +6,9 @@ jobs:
       - image: shaguarger/platformio
     steps:
       - checkout
+      - working_directory: "control-panel"
       - run:
-          command: "cd control-panel"
-      - run:
-          command: "platformio check --skip-packages --environment megaatmega2560"
+          command: "cd control-panel && platformio check --skip-packages --environment megaatmega2560"
   build:
     docker:
       - image: shaguarger/platformio
