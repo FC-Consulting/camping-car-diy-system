@@ -20,12 +20,17 @@ jobs:
           command: |
             cd control-panel
             platformio run --environment megaatmega2560
+      - persist_to_workspace:
+          root: control-panel/.pio/build/megaatmega2560
+          paths:
+            - firmware.elf
+            - firmware.hex
       - store_artifacts:
           path: control-panel/.pio/build/megaatmega2560/firmware.elf
-          destination: ./artifacts/firmware.elf
+          destination: firmware.elf
       - store_artifacts:
           path: control-panel/.pio/build/megaatmega2560/firmware.hex
-          destination: ./artifacts/firmware.hex
+          destination: firmware.hex
 
   release:
     docker:
@@ -36,11 +41,11 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - attach_workspace:
-          at: ./artifacts
+          at: ${CIRCLE_WORKING_DIRECTORY}/control-panel/.pio/build/megaatmega2560
       - run:
           name: "Publish Release on GitHub"
           command: |
-            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create $TAG -t ${CIRCLE_PROJECT_REPONAME} ./artifacts/"
+            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create ${CIRCLECI_TAG} -t ${CIRCLE_PROJECT_REPONAME} firmware.hex firmware.elf"
 
 workflows:
   version: 2
