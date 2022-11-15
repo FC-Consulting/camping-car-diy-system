@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           command: |
-            echo << pipeline.git.tag >>
+            echo ${pipeline.git.tag}
             cd control-panel
             platformio check --skip-packages --environment megaatmega2560
   build:
