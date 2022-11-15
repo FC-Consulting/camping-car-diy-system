@@ -43,13 +43,27 @@ jobs:
             docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create ${version_tag} ./artifacts/ -t ${CIRCLE_PROJECT_REPONAME}"
 
 workflows:
+  version: 2
   ci:
     jobs:
-      - test
+      - test:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$*/
+            branches:
+              only: /.*/
       - build:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$*/
+            branches:
+              only: main
           requires:
             - test
       - release:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$*/
           requires:
             - build
           version_tag: << pipeline.git.tag >>
