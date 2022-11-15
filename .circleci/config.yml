@@ -55,6 +55,4 @@ workflows:
           filters:
             tags:
               only: /^\d+.\d+.\d+$/
-            branches:
-              ignore: /.*/
           version_tag: << pipeline.git.tag >>
