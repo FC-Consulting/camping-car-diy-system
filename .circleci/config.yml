@@ -10,6 +10,7 @@ jobs:
           command: |
             cd control-panel
             platformio check --skip-packages --environment megaatmega2560
+
   build:
     docker:
       - image: shaguarger/platformio
@@ -25,13 +26,12 @@ jobs:
       - store_artifacts:
           path: control-panel/.pio/build/megaatmega2560/firmware.hex
           destination: ./artifacts/firmware.hex
+
   release:
     docker:
       - image: cimg/base:2022.06
-    parameters:
-      version_tag:
-        type: string
-        description: Version tag of this release.
+    environment:
+      TAG: << pipeline.git.tag >>
     steps:
       - setup_remote_docker:
           version: 20.10.14
@@ -40,7 +40,7 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create ${version_tag} ./artifacts/ -t ${CIRCLE_PROJECT_REPONAME}"
+            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create $TAG ./artifacts/ -t ${CIRCLE_PROJECT_REPONAME}"
 
 workflows:
   version: 2
@@ -64,6 +64,7 @@ workflows:
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$*/
+            branches:
+              ignore: /.*/
           requires:
             - build
-          version_tag: << pipeline.git.tag >>
