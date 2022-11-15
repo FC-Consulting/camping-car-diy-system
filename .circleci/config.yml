@@ -40,7 +40,7 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create $TAG ./artifacts/ -t ${CIRCLE_PROJECT_REPONAME}"
+            docker run -it -e GITHUB_TOKEN=${GITHUB_TOKEN} maniator/gh:v2.20.0 "gh release create $TAG -t ${CIRCLE_PROJECT_REPONAME} ./artifacts/"
 
 workflows:
   version: 2
