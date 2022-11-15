@@ -49,12 +49,6 @@ workflows:
       - build:
           requires:
             - test
-          filters:
-            branches:
-              only:
-                - main
-            tags:
-              only: /.*/
       - release:
           requires:
             - build
